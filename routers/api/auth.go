@@ -19,17 +19,21 @@ type auth struct {
 
 // @Summary Get Auth
 // @Produce  json
-// @Param username query string true "userName"
-// @Param password query string true "password"
+// @Accept multipart/form-data
+// @Param username formData string true "userName"
+// @Param password formData string true "password"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
-// @Router /auth [get]
+// @Router /auth [post]
 func GetAuth(c *gin.Context) {
 	appG := app.Gin{C: c}
 	valid := validation.Validation{}
 
 	username := c.PostForm("username")
 	password := c.PostForm("password")
+
+	// username := c.Query("username")
+	// password := c.Query("password")
 
 	a := auth{Username: username, Password: password}
 	ok, _ := valid.Valid(&a)

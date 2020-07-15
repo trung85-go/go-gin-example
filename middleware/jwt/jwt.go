@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,16 @@ import (
 	"github.com/EDDYCJY/go-gin-example/pkg/util"
 )
 
+func ExtractToken(r *http.Request) string {
+  bearToken := r.Header.Get("Authorization")
+  //normally Authorization the_token_xxx
+  strArr := strings.Split(bearToken, " ")
+  if len(strArr) == 2 {
+     return strArr[1]
+  }
+  return ""
+}
+
 // JWT is jwt middleware
 func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -17,7 +28,9 @@ func JWT() gin.HandlerFunc {
 		var data interface{}
 
 		code = e.SUCCESS
-		token := c.Query("token")
+		// token := c.Query("token")
+		token := ExtractToken(c.Request)
+
 		if token == "" {
 			code = e.INVALID_PARAMS
 		} else {

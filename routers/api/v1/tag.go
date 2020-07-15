@@ -231,7 +231,7 @@ func ExportTag(c *gin.Context) {
 
 // @Summary Import article tag
 // @Produce  json
-// @Param file body file true "Excel File"
+// @Param file formData file true "Excel File"
 // @Success 200 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /api/v1/tags/import [post]

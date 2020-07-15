@@ -342,15 +342,17 @@ paths:
             $ref: '#/definitions/app.Response'
       summary: Import Image
   /auth:
-    get:
+    post:
+      consumes:
+      - multipart/form-data
       parameters:
       - description: userName
-        in: query
+        in: formData
         name: username
         required: true
         type: string
       - description: password
-        in: query
+        in: formData
         name: password
         required: true
         type: string
