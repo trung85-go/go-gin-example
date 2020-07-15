@@ -1,0 +1,30 @@
+version: '3'
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "63379:6379"
+    volumes:
+      - $PWD/my-redis-data:/var/lib/redis
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blog
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    ports:
+      - "33306:3306"
+    tty: true
+    volumes:
+      - $PWD/my-db-data:/var/lib/mysql
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    tty: true
+    depends_on:
+      - db
+      - redis
